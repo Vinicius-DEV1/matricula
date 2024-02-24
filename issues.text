@@ -1,0 +1,13 @@
+-Remover temporiamente login via arquivo devido 
+problemas com o preenchimento da tela de login com esses dados
+
+index.py
+
+
+#RECEBE (1,2,...N) Id de disciplinas 
+#pressionar as três disciplinas e caso alguma esteja disponivel apertar em matricular;
+#APÓS ISSO REMOVE AS QUE FOI MATRICULADO DO TESTE;
+#QUANDO ACABA TODAS ENCERRAR O ALGORITMO.
+
+
+O USER DEVE PREENCHER MANUALMENTE O 'USER" , "PASSWORD" e os id's

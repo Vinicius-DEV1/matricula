@@ -27,6 +27,10 @@ if (interface_grafica=="Y" or interface_grafica=="y" or interface_grafica==""):
     # Acessar a pagina de login
     driver.get("https://aluno.uvanet.br/")
     time.sleep(5)
+
+    #Fazer login
+    preencher_login()
+
 else:
     # Configurando as opções do Chrome para executar em modo headless
     chrome_options = Options()
@@ -40,20 +44,7 @@ else:
     driver.get("https://aluno.uvanet.br/")
     time.sleep(5)
 
-
-if (os.path.isfile('login.txt') == False):
-    print("Digite seu LOGIN")
-    user_log = input("Digite user: ")
-    password_log = input("Digite password: ")
-
-    #Escreve as credencias no arquivo
-    with open('login.txt', 'w') as arquivo:
-        arquivo.write(user_log + '\n')
-        arquivo.write(password_log + '\n')
-    arquivo.close()
-
-    preencher_login()
-else:
+    #FAZER LOGIN
     preencher_login()
 
 ##LOOP
@@ -63,12 +54,10 @@ loop=True
 
 driver.get("https://aluno.uvanet.br/matricula_reajuste_form.php")
 # Esperar a página de reajuste carregar
-# troca por uma funcao
+# trocar por uma funcao
 time.sleep(10)
 
 while (loop==True):
-
-
 
     for id_disciplina in lista_de_id_disciplinas:
         #para cada elemento na lista a function checar_disponibilidade  verifica
@@ -112,11 +101,3 @@ while (loop==True):
 # Fechar o navegador
 time.sleep(5)
 driver.quit()
-
-
-#RECEBE 1,2,...N
-#RECEBE 1,2,...N ID DE DISCIPLINA
-#pressionar as três disciplinas e caso alguma esteja disponivel apertar em matricular;
-#APÓS ISSO REMOVE AS QUE FOI MATRICULADO DO TESTE;
-#QUANDO ACABA TODAS ENCERRAR O ALGORITMO.
-
