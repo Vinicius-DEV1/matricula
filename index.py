@@ -13,59 +13,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
 
+from source import preencher_login
+from source import checar_disponibilidade
+
 sinalizador_de_disponibilidade = False
 
 
-def preencher_login():
-    with open('login.txt', 'r') as arquivo:
-        user_login = arquivo.readlines()[0]
-        arquivo.seek(0)
-        password_login = arquivo.readlines()[1]
-        #repete o codigo anterior
-        arquivo.close()
-
-    #Por enquanto autenticação manual via codigo
-    user_box = driver.find_element("id", "form:usuario")
-    user_box.send_keys('vinicius_calado')
-
-    password_box = driver.find_element("id", "form:senha")
-    password_box.send_keys('uva2027ccn')
-
-    # marcar checkbox lembrar de manter conectado
-    manter_logado = driver.find_element("id", "form:manterLogado")
-    manter_logado.click()
-    #click login
-    logar = driver.find_element("id", "form:button")
-    logar.click()
-
-
-
-
-def matricular(id_disciplina):
-    # Encontrar o elemento da checkbox pelo ID
-    checkbox = driver.find_element("id", id_disciplina)
-
-    #tornar as checkbox travadas em clicaveis para ver o status dela
-    driver.execute_script("arguments[0].removeAttribute('disabled');", checkbox)
-
-    # Clicar na checkbox para ativá-la
-    checkbox.click()
-    #time.sleep(4)
-
-    ##verificar se o checkbox foi marcado, se sim no final pode apertar em matricular.
-    if checkbox.is_selected():
-        print("A disciplina [...] ESTÁ disponivel")
-        global sinalizador_de_disponibilidade
-        sinalizador_de_disponibilidade = True
-        #remover esse que foi verificado; finalizar programa somente com a lista vázia
-        lista_de_id_disciplinas.remove(id_disciplina)
-    else:
-        print("A disciplina [...] NÃO está disponivel")
-
-
-
-
 interface_grafica = input("COM INTERFACE GRÁFICA? (Y/n)")
+
 if (interface_grafica=="Y" or interface_grafica=="y" or interface_grafica==""):
     # Inicializa o driver do navegador
     driver = webdriver.Chrome()
@@ -116,9 +71,10 @@ while (loop==True):
 
 
     for id_disciplina in lista_de_id_disciplinas:
-        matricular(id_disciplina)
+        #para cada elemento na lista a function checar_disponibilidade  verifica
+        # se a disciplina está disponivel para matricula
+        checar_disponibilidade(id_disciplina)
 
-    #
     if sinalizador_de_disponibilidade == True:
         print("Matricula disponivel.")
         ##APERTAR EM MATRICULAR
@@ -137,7 +93,7 @@ while (loop==True):
             loop = False
 
     else:
-        time.sleep(0)
+        #time.sleep(0)
         tentativas+=1
     
         #Obter a hora e a data atual
@@ -160,6 +116,7 @@ driver.quit()
 
 #RECEBE 1,2,...N
 #RECEBE 1,2,...N ID DE DISCIPLINA
-#pressionar as três disciplinas e caso alguma esteja disponivel apertar em matricular; APÓS ISSO REMOVE AS QUE FOI MATRICULADO DO TESTE;
+#pressionar as três disciplinas e caso alguma esteja disponivel apertar em matricular;
+#APÓS ISSO REMOVE AS QUE FOI MATRICULADO DO TESTE;
 #QUANDO ACABA TODAS ENCERRAR O ALGORITMO.
 
